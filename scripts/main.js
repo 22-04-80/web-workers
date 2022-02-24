@@ -38,6 +38,18 @@ if (window.Worker) {
 		}
 	}
 
+	function startCrossOriginWorker() {
+		let newWorker = new Worker("https://mdn.github.io/simple-web-worker/worker.js")
+		newWorker.postMessage("Hello")
+	}
+
+	function startCrossOriginWorkerWithImportScripts() {
+		const content = `importScripts("https://mdn.github.io/simple-web-worker/worker.js")`;
+		const workerUrl = URL.createObjectURL(new Blob([content], {type: "text/javascript"}));
+		const worker = new Worker(workerUrl);
+		worker.postMessage("Hello");
+	}
+
 	first.onchange = function() {
 		myWorker.postMessage({type: "calc", data: [first.value, second.value]});
 		console.log('Message posted to worker');
